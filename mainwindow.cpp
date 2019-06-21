@@ -7,22 +7,21 @@
 
 using namespace std;
 
-MainWindow::MainWindow():QMainWindow()
-{
+MainWindow::MainWindow():QMainWindow() {
 
+    this -> setWindowTitle("Radio Controls");
     this -> resize(800, 500);
+
+    setCentralWidget(this -> textField);
     attachWidgets();
 
-    setCentralWidget(this->textField);
     textField -> setMaximumSize(800, 340);
     textField -> setGeometry(400, 400, 100, 100);
 
-
-    radioDock ->resize(800, 100);
+    radioDock -> resize(800, 100);
 }
 
 void MainWindow::attachWidgets() {
-
 
     QMenuBar *menuBar = new QMenuBar;
     QMenu *file = new QMenu;
@@ -34,22 +33,21 @@ void MainWindow::attachWidgets() {
     save -> setShortcut(QKeySequence::Save);
     end -> setShortcut(QKeySequence::Close);
 
-
-    QLCDNumber *amChannelDisplay = new QLCDNumber();
-    QLCDNumber *fmChannelDisplay = new QLCDNumber();
-    QLCDNumber *bassSliderDisplay = new QLCDNumber();
-    QLCDNumber *trebleSliderDisplay = new QLCDNumber();
-    QRadioButton *amButton = new QRadioButton("AM");
-    QRadioButton *fmButton = new QRadioButton("FM");
-    QSlider *bassSlider = new QSlider();
-    QSlider *trebleSlider = new QSlider();
-    QDial *fmRadioDial = new QDial();
-    QDial *amRadioDial = new QDial();
-    QLabel *trebleLabel = new QLabel("Treble:");
-    QLabel *bassLabel = new QLabel("Bass:");
-    QLabel *volumeLabel = new QLabel("Volume:");
-    QSpinBox *volumeAdjuster = new QSpinBox();
-    QPushButton *quit = new QPushButton("Quit");
+    QLCDNumber *amChannelDisplay = new QLCDNumber(this -> radioDock);
+    QLCDNumber *fmChannelDisplay = new QLCDNumber(this -> radioDock);
+    QLCDNumber *bassSliderDisplay = new QLCDNumber(this -> radioDock);
+    QLCDNumber *trebleSliderDisplay = new QLCDNumber(this -> radioDock);
+    QRadioButton *amButton = new QRadioButton("AM", this -> radioDock);
+    QRadioButton *fmButton = new QRadioButton("FM", this -> radioDock);
+    QSlider *bassSlider = new QSlider(this -> radioDock);
+    QSlider *trebleSlider = new QSlider(this -> radioDock);
+    QDial *fmRadioDial = new QDial(this -> radioDock);
+    QDial *amRadioDial = new QDial(this -> radioDock);
+    QLabel *trebleLabel = new QLabel("Treble:", this -> radioDock);
+    QLabel *bassLabel = new QLabel("Bass:", this -> radioDock);
+    QLabel *volumeLabel = new QLabel("Volume:", this -> radioDock);
+    QSpinBox *volumeAdjuster = new QSpinBox(this -> radioDock);
+    QPushButton *quit = new QPushButton("Quit", this -> radioDock);
 
     file -> addAction(open);
     file -> addAction(save);
@@ -87,9 +85,7 @@ void MainWindow::attachWidgets() {
     QObject::connect(fmButton, SIGNAL(clicked()), fmChannelDisplay, SLOT(show()));
     QObject::connect(fmButton, SIGNAL(clicked()), amChannelDisplay, SLOT(hide()));
 
-
     //  Set widget options and names
-    this -> setWindowTitle("Radio Controls");
     volumeAdjuster -> setRange(0,100);
     volumeAdjuster -> setValue(30);
 
@@ -117,42 +113,26 @@ void MainWindow::attachWidgets() {
     bassSlider -> setTickInterval(1);
     trebleSlider -> setTickInterval(1);
 
-
     //  Manually set widget positions
-    fmButton -> setParent(this->radioDock);
-    fmButton -> setGeometry(20,20, 40, 50);
-    fmChannelDisplay -> setParent(this->radioDock);
+    fmButton -> setGeometry(20, 20, 40, 50);
     fmChannelDisplay -> setGeometry(115, 25, 72, 20);
-    fmRadioDial -> setParent(this->radioDock);
     fmRadioDial -> setGeometry(100, 50, 100, 100);
 
-    amButton -> setParent(this->radioDock);
     amButton -> setGeometry(20,60, 40, 50);
-    amChannelDisplay -> setParent(this->radioDock);
     amChannelDisplay -> setGeometry(115, 25, 72, 20);
-    amRadioDial -> setParent(this->radioDock);
     amRadioDial -> setGeometry(100, 50, 100, 100);
 
-    volumeAdjuster -> setParent(this->radioDock);
     volumeAdjuster -> setGeometry(280, 52, 45, 22);
-    volumeLabel -> setParent(this->radioDock);
     volumeLabel -> setGeometry(225, 45, 50, 35);
 
-    bassLabel -> setParent(this->radioDock);
     bassLabel -> setGeometry(365, 45, 50, 35);
-    bassSlider -> setParent(this->radioDock);
     bassSlider -> setGeometry (400, 27, 50, 75);
-    bassSliderDisplay -> setParent(this->radioDock);
     bassSliderDisplay -> setGeometry(445, 54, 50, 20);
 
-    trebleLabel -> setParent(this->radioDock);
     trebleLabel -> setGeometry(535, 45, 50, 35);
-    trebleSlider -> setParent(this->radioDock);
     trebleSlider -> setGeometry (570, 27, 50, 75);
-    trebleSliderDisplay -> setParent(this->radioDock);
     trebleSliderDisplay -> setGeometry(620, 54, 50, 20);
 
-    quit -> setParent(this->radioDock);
     quit -> setGeometry(700, 50, 60, 40);
 
     this -> radioDock -> show();
@@ -165,20 +145,20 @@ void MainWindow::attachWidgets() {
 }
 
 void MainWindow::open() {
-    QString *container = new QString;
 
+    QString *container = new QString;
     ifstream inFile;
-    string fuckThis;
+    string killme;
     inFile.open("/Users/Marc/AnotherTest/text.txt");
 
     while(!inFile.eof()) {
 
-        getline(inFile, fuckThis);
-        QString qstr = QString::fromStdString(fuckThis);
+        getline(inFile, killme);
+        QString qstr = QString::fromStdString(killme);
         container -> append(qstr + "\n");
-        this -> textField->setPlainText(*container);
-
+        this -> textField -> setPlainText(*container);
     }
+
     inFile.close();
 }
 
@@ -192,5 +172,3 @@ void MainWindow::save() {
     out << textField->toPlainText() << endl;
 
 }
-
-
