@@ -149,7 +149,7 @@ void MainWindow::open() {
     QString *container = new QString;
     ifstream inFile;
     string killme;
-    inFile.open("/Users/Marc/AnotherTest/text.txt");
+    inFile.open("/Users/Marc/Radio/text.txt");
 
     while(!inFile.eof()) {
 
@@ -165,7 +165,7 @@ void MainWindow::open() {
 void MainWindow::save() {
 
     QFile outfile;
-    outfile.setFileName("/Users/Marc/AnotherTest/text.txt");
+    outfile.setFileName("/Users/Marc/Radio/text.txt");
     outfile.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&outfile);
 
