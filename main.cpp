@@ -2,15 +2,11 @@
 
 #include <QtWidgets>
 
-int main(int argc, char **argv)
-{
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+int main(int argc, char **argv) {
     QApplication app(argc, argv);
 
     MainWindow *mainWin = new MainWindow();
-
-    mainWin->show();
+    mainWin -> show();
 
     return app.exec();
 }
